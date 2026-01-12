@@ -24,6 +24,8 @@ class Tormatic : public cover::Cover, public uart::UARTDevice, public PollingCom
 
   cover::CoverTraits get_traits() override;
 
+  void ventilation();
+
  protected:
   void control(const cover::CoverCall &call) override;
 
