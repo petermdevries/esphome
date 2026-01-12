@@ -85,6 +85,11 @@ void Tormatic::publish_state(bool save, uint32_t ratelimit) {
   Cover::publish_state(save);
 };
 
+void Tormatic::ventilation() {
+  ESP_LOGI(TAG, "Setting gate to ventilation mode");
+  this->send_gate_command_(VENTILATING);
+}
+
 // Recalibrate the gate's estimated open or close duration based on the
 // actual time the operation took.
 void Tormatic::recalibrate_duration_(GateStatus s) {
