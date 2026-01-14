@@ -40,9 +40,3 @@ async def to_code(config):
 
     cg.add(var.set_close_duration(config[CONF_CLOSE_DURATION]))
     cg.add(var.set_open_duration(config[CONF_OPEN_DURATION]))
-
-    custom_component.add_custom_service(
-        var,
-        VENTILATION_SERVICE,
-        [],
-    )
