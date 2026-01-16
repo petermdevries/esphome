@@ -1,10 +1,12 @@
 import esphome.codegen as cg
-from esphome.components import cover, uart
+from esphome.components import binary_sensor, cover, uart
 import esphome.config_validation as cv
 from esphome.const import CONF_CLOSE_DURATION, CONF_OPEN_DURATION
 
 tormatic_ns = cg.esphome_ns.namespace("tormatic")
 Tormatic = tormatic_ns.class_("Tormatic", cover.Cover, cg.PollingComponent)
+
+CONF_VENTILATION_ACTIVE = "ventilation_active"
 
 CONFIG_SCHEMA = (
     cover.cover_schema(Tormatic)
@@ -18,6 +20,7 @@ CONFIG_SCHEMA = (
             cv.Optional(
                 CONF_CLOSE_DURATION, default="22s"
             ): cv.positive_time_period_milliseconds,
+            cv.Optional(CONF_VENTILATION_ACTIVE): binary_sensor.binary_sensor_schema(),
         }
     )
 )
@@ -40,3 +43,7 @@ async def to_code(config):
 
     cg.add(var.set_close_duration(config[CONF_CLOSE_DURATION]))
     cg.add(var.set_open_duration(config[CONF_OPEN_DURATION]))
+
+    if CONF_VENTILATION_ACTIVE in config:
+        sens = await binary_sensor.new_binary_sensor(config[CONF_VENTILATION_ACTIVE])
+        cg.add(var.set_ventilation_active_sensor(sens))

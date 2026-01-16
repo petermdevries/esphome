@@ -167,6 +167,10 @@ void Tormatic::handle_gate_status_(GateStatus s) {
   this->current_status_ = s;
   this->current_operation = gate_status_to_cover_operation(s);
 
+  if (this->ventilation_active_sensor_ != nullptr) {
+    this->ventilation_active_sensor_->publish_state(s == VENTILATING);
+  }
+
   this->publish_state(true);
 
   // This timestamp is used to generate position deltas on every loop() while
