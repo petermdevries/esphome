@@ -1,7 +1,7 @@
 #pragma once
 
 #include "esphome/core/defines.h"
-#ifdef USE_BINARY_SENSOR
+#ifdef USE_TORMATIC_VENTILATION_SENSOR
 #include "esphome/components/binary_sensor/binary_sensor.h"
 #endif
 #include "esphome/components/uart/uart.h"
@@ -23,7 +23,7 @@ class Tormatic : public cover::Cover, public uart::UARTDevice, public PollingCom
 
   void set_open_duration(uint32_t duration) { this->open_duration_ = duration; }
   void set_close_duration(uint32_t duration) { this->close_duration_ = duration; }
-#ifdef USE_BINARY_SENSOR
+#ifdef USE_TORMATIC_VENTILATION_SENSOR
   void set_ventilation_active_sensor(binary_sensor::BinarySensor *sensor) { this->ventilation_active_sensor_ = sensor; }
 #endif
 
@@ -57,7 +57,7 @@ class Tormatic : public cover::Cover, public uart::UARTDevice, public PollingCom
 
   uint32_t open_duration_{0};
   uint32_t close_duration_{0};
-#ifdef USE_BINARY_SENSOR
+#ifdef USE_TORMATIC_VENTILATION_SENSOR
   binary_sensor::BinarySensor *ventilation_active_sensor_{nullptr};
 #endif
   uint32_t last_publish_time_{0};

@@ -168,9 +168,11 @@ void Tormatic::handle_gate_status_(GateStatus s) {
   this->current_operation = gate_status_to_cover_operation(s);
 
 #ifdef USE_BINARY_SENSOR
+#ifdef USE_TORMATIC_VENTILATION_SENSOR
   if (this->ventilation_active_sensor_ != nullptr) {
     this->ventilation_active_sensor_->publish_state(s == VENTILATING);
   }
+#endif
 #endif
 
   this->publish_state(true);

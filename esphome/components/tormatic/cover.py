@@ -45,5 +45,6 @@ async def to_code(config):
     cg.add(var.set_open_duration(config[CONF_OPEN_DURATION]))
 
     if CONF_VENTILATION_ACTIVE in config:
+        cg.add_define("USE_TORMATIC_VENTILATION_SENSOR")
         sens = await binary_sensor.new_binary_sensor(config[CONF_VENTILATION_ACTIVE])
         cg.add(var.set_ventilation_active_sensor(sens))
