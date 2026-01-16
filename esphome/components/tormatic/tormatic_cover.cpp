@@ -8,6 +8,7 @@ namespace esphome {
 namespace tormatic {
 
 static const char *const TAG = "tormatic.cover";
+static constexpr float VENTILATION_POSITION = 0.2f;
 
 using namespace esphome::cover;
 
@@ -87,6 +88,7 @@ void Tormatic::publish_state(bool save, uint32_t ratelimit) {
 
 void Tormatic::ventilation() {
   ESP_LOGI(TAG, "Setting gate to ventilation mode");
+  this->target_position_.reset();
   this->send_gate_command_(VENTILATING);
 }
 
@@ -154,6 +156,9 @@ void Tormatic::handle_gate_status_(GateStatus s) {
       break;
     case CLOSED:
       this->position = COVER_CLOSED;
+      break;
+    case VENTILATING:
+      this->position = clamp(VENTILATION_POSITION, COVER_CLOSED, COVER_OPEN);
       break;
     default:
       break;
